@@ -51,8 +51,8 @@ public class Command {
     private static int startRecording(CommandContext<FabricClientCommandSource> ctx) {
         var recorder =  NoteBlockRecorderMod.getInstance().recorder;
         if(recorder.isRecording()) {
-            ctx.getSource().sendFeedback(Component.literal("Already recording a song! Finish the current recording before starting a new one."));
-            return SINGLE_SUCCESS;
+            ctx.getSource().sendError(Component.literal("Already recording a song! Finish the current recording before starting a new one."));
+            return 0;
         }
         String songName = ctx.getArgument("song_name", String.class);
         recorder.startRecording(songName);
@@ -63,8 +63,8 @@ public class Command {
     private static int cancelRecording(CommandContext<FabricClientCommandSource> ctx) {
         var recorder = NoteBlockRecorderMod.getInstance().recorder;
         if(!recorder.isRecording()) {
-            ctx.getSource().sendFeedback(Component.literal("Not currently recording a song! Start a recording before trying to cancel one."));
-            return SINGLE_SUCCESS;
+            ctx.getSource().sendError(Component.literal("Not currently recording a song! Start a recording before trying to cancel one."));
+            return 0;
         }
         recorder.cancelRecording();
         ctx.getSource().sendFeedback(Component.literal("Cancelled current recording!"));
@@ -74,8 +74,8 @@ public class Command {
     private static int finishRecording(CommandContext<FabricClientCommandSource> ctx) {
         var recorder = NoteBlockRecorderMod.getInstance().recorder;
         if(!recorder.isRecording()) {
-            ctx.getSource().sendFeedback(Component.literal("Not currently recording a song! Start a recording before trying to finish one."));
-            return SINGLE_SUCCESS;
+            ctx.getSource().sendError(Component.literal("Not currently recording a song! Start a recording before trying to finish one."));
+            return 0;
         }
         String songName = recorder.getSongName();
         String songFileName = songName.endsWith(".nbs") ? songName : songName + ".nbs";
@@ -87,7 +87,8 @@ public class Command {
             Files.write(outputPath, nbsData);
             ctx.getSource().sendFeedback(Component.literal("Finished recording song '" + songName + "'. Saving to the game directory"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ctx.getSource().sendError(Component.literal("Failed to save the recorded song '" + songName + "': " + e.getMessage()));
+            return 0;
         }
         return SINGLE_SUCCESS;
     }
