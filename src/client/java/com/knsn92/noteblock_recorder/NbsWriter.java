@@ -1,5 +1,7 @@
 package com.knsn92.noteblock_recorder;
 
+import net.minecraft.resources.Identifier;
+
 import java.io.ByteArrayOutputStream;
 import java.util.*;
 
@@ -19,6 +21,17 @@ public class NbsWriter {
     private int layer_count = 0;
     private final Map<Integer, List<Note>> notes = new HashMap<>();
     private final Set<Byte> used_instruments = new HashSet<>();
+    public final CustomInstrument[] custom_instruments;
+
+    public record CustomInstrument(String name, String file, Identifier identifier) {}
+
+    public NbsWriter() {
+        this(new CustomInstrument[0]);
+    }
+
+    public NbsWriter(CustomInstrument[] custom_instruments) {
+        this.custom_instruments = custom_instruments;
+    }
 
     public void addNote(Note note, int tick, int layer) {
         var notes_in_tick = notes.get(tick);
@@ -120,10 +133,20 @@ public class NbsWriter {
         }
     }
 
+    private void writeCustomInstruments() {
+        write_byte((byte)custom_instruments.length); // Custom instrument count
+        for(CustomInstrument ci : custom_instruments) {
+            write_string(ci.name());
+            write_string(ci.file());
+            write_byte((byte)45); // key
+            write_byte((byte)0); // press piano key
+        }
+    }
+
     public byte[] write() {
         writeHeader();
         writeNotesAndLayers();
-        write_byte((byte)0); // Custom instrument count
+        writeCustomInstruments();
         return writer.toByteArray();
     }
 
