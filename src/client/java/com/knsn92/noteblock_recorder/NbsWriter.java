@@ -12,10 +12,10 @@ public class NbsWriter {
 
     private final ByteArrayOutputStream writer = new ByteArrayOutputStream();
 
-    private String name = "";
-    private String author = "";
-    private String original_author = "";
-    private String description = "";
+    public String name = "";
+    public String author = "";
+    public String original_author = "";
+    public String description = "";
 
     private int ticks_len = 0;
     private int layer_count = 0;
