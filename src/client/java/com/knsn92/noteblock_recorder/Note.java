@@ -24,23 +24,28 @@ public record Note(byte instrument, float pitch, float volume) {
             .put(Identifier.parse("minecraft:block.note_block.pling"),          (byte)15)
             .build();
 
-    public static Note fromSound(SoundInstance sound) {
+    public static Note fromSound(SoundInstance sound, NbsWriter.CustomInstrument[] custom_instruments) {
         if(sound == null) return null;
         var identifier = sound.getIdentifier();
         var instrument = NOTE_SOUND_TO_ID.get(identifier);
-        if(instrument != null) {
-            float pitch;
-            float volume;
-            try {
-                pitch = sound.getPitch();
-                volume = sound.getVolume();
-            } catch(NullPointerException e) {
-                return null;
+        if(instrument == null) {
+            for(int i = 0; i < custom_instruments.length; i++) {
+                if(i + NOTE_SOUND_TO_ID.size() >= 256) return null;
+                if(custom_instruments[i].identifier().equals(identifier)) {
+                    instrument = (byte)(i + NOTE_SOUND_TO_ID.size());
+                }
             }
-            return new Note(instrument, pitch, volume);
-        }else {
+            if(instrument == null) return null;
+        }
+        float pitch;
+        float volume;
+        try {
+            pitch = sound.getPitch();
+            volume = sound.getVolume();
+        } catch(NullPointerException e) {
             return null;
         }
+        return new Note(instrument, pitch, volume);
     }
 
 }

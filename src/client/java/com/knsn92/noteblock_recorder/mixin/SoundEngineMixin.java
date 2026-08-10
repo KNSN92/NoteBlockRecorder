@@ -20,7 +20,7 @@ public class SoundEngineMixin {
     void playSoundNoteBlock(SoundInstance instance, CallbackInfoReturnable<SoundEngine.PlayResult> cir) {
         NoteBlockRecorder recorder = NoteBlockRecorderMod.getInstance().recorder;
         if(!recorder.isRecording()) return;
-        Note note = Note.fromSound(instance);
+        Note note = Note.fromSound(instance, recorder.getCurrentRecorderCustomInstruments());
         if(note == null) return;
         recorder.addNote(note);
     }
