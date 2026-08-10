@@ -3,7 +3,7 @@
 	"package": "com.knsn92.noteblock_recorder.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"ExampleClientMixin"
+		"SoundEngineMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
