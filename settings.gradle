@@ -10,4 +10,4 @@ pluginManagement {
 }
 
 // Should match your modid
-rootProject.name = 'noteblock_recorder'
+rootProject.name = 'noteblock-recorder'
