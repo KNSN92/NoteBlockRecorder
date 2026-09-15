@@ -7,10 +7,10 @@ import net.minecraft.resources.Identifier;
 public record Note(byte instrument, float pitch, float volume) {
     public static final ImmutableMap<Identifier, Byte> NOTE_SOUND_TO_ID = new ImmutableMap.Builder<Identifier, Byte>()
             .put(Identifier.parse("minecraft:block.note_block.harp"),           (byte)0)
-            .put(Identifier.parse("minecraft:block.note_block.basedrum"),       (byte)1)
+            .put(Identifier.parse("minecraft:block.note_block.basedrum"),       (byte)2)
             .put(Identifier.parse("minecraft:block.note_block.snare"),          (byte)3)
             .put(Identifier.parse("minecraft:block.note_block.hat"),            (byte)4)
-            .put(Identifier.parse("minecraft:block.note_block.bass"),           (byte)2)
+            .put(Identifier.parse("minecraft:block.note_block.bass"),           (byte)1)
             .put(Identifier.parse("minecraft:block.note_block.flute"),          (byte)6)
             .put(Identifier.parse("minecraft:block.note_block.bell"),           (byte)7)
             .put(Identifier.parse("minecraft:block.note_block.guitar"),         (byte)5)
