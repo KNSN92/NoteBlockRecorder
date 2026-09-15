@@ -24,9 +24,7 @@ public record Note(byte instrument, float pitch, float volume) {
             .put(Identifier.parse("minecraft:block.note_block.pling"),          (byte)15)
             .build();
 
-    public static Note fromSound(SoundInstance sound, NbsWriter.CustomInstrument[] custom_instruments) {
-        if(sound == null) return null;
-        var identifier = sound.getIdentifier();
+    public static Note of(Identifier identifier, float pitch, float volume, NbsWriter.CustomInstrument[] custom_instruments) {
         var instrument = NOTE_SOUND_TO_ID.get(identifier);
         if(instrument == null) {
             for(int i = 0; i < custom_instruments.length; i++) {
@@ -36,14 +34,6 @@ public record Note(byte instrument, float pitch, float volume) {
                 }
             }
             if(instrument == null) return null;
-        }
-        float pitch;
-        float volume;
-        try {
-            pitch = sound.getPitch();
-            volume = sound.getVolume();
-        } catch(NullPointerException e) {
-            return null;
         }
         return new Note(instrument, pitch, volume);
     }
