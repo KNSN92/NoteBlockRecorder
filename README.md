@@ -1,9 +1,51 @@
-# Example Mod
+# NoteBlockRecorder
 
-## Setup
+`NoteBlockで再生される音楽を.nbsに書き出しましょう！`\
+このmodを使用するとゲーム内で流れているサウンドを収集し、NoteBlockStudio等で再生できる`.nbs`ファイルに書き出すことが出来ます！
+ClientSide modなのでサーバーに入りつつ、NoteBotで演奏している見知らぬプレイヤーから曲を録音したり、サーバーで流れているBGMなどを録画することも出来ます！
+**録音した曲は、個人での利用にとどめてほしいです。Minecraftを立ち上げないと聞けない曲をいつでも再生するために自分の為に録音するみたいな使い方にとどめてほしいです。**
+**このmodの使用で権利に関する問題が発生した場合でも、作者は一切の責任を負いません。**
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+## 使用方法
 
-## License
+基本的な録音の他にも、音ブロック以外のサウンドも録音することが可能です！
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+### 録音の開始
+```
+nbsrecorder start <曲名>
+```
+
+### 録音を終了し、曲を保存する
+録音された曲は`<ゲームディレクトリ>/recorded_nbs_songs/<曲名>/<曲名>.nbs`に保存されます。
+音ブロック以外のサウンドは`<ゲームディレクトリ>/recorded_nbs_songs/<曲名>/sounds/`に保存されます。
+```
+nbsrecorder finish
+```
+
+### 録音を中止する
+```
+nbsrecorder cancel
+```
+
+### 音ブロック以外のサウンドを録音対象に追加する
+```
+nbsrecorder sounds add <サウンド名>
+```
+
+### 音ブロック以外のサウンドを録音対象から削除する
+```
+nbsrecorder sounds remove <サウンド名>
+```
+
+### 登録されている音ブロック以外のサウンドを録音対象から全て削除する
+```
+nbsrecorder sounds clear
+```
+
+### 登録されている音ブロック以外のサウンドを確認する
+```
+nbsrecorder sounds list
+```
+
+### 注意点
+- サーバーのラグによって、録音した曲のタイミングがずれる場合があります。pingにご注意を。
